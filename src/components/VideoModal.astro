@@ -1,0 +1,96 @@
+---
+// Fullscreen video player. Any element with data-stream="<id>" opens it.
+---
+
+<div id="vmodal" role="dialog" aria-modal="true" aria-label="Video player">
+  <button id="vmodal-close" aria-label="Close video">&#10005;</button>
+  <div id="vmodal-inner"></div>
+</div>
+
+<style>
+  #vmodal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.96);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: vmFade 0.25s ease;
+  }
+  @keyframes vmFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  #vmodal-close {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.5rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #vmodal-inner {
+    width: 95vw;
+    max-width: 1400px;
+    max-height: 90vh;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+  }
+</style>
+
+<script>
+  // Registered once — event delegation means it keeps working even after
+  // the page body is swapped by a view transition.
+  function getModal() {
+    return {
+      modal: document.getElementById('vmodal'),
+      inner: document.getElementById('vmodal-inner'),
+    };
+  }
+
+  function vmodalOpen(id: string, silent = false) {
+    const { modal, inner } = getModal();
+    if (!modal || !inner) return;
+    // Some clips have no usable audio, so they open muted rather than
+    // blasting silence-with-hiss at whoever clicked.
+    const muted = silent ? 'true' : 'false';
+    inner.innerHTML =
+      `<iframe src="https://iframe.videodelivery.net/${id}?autoplay=true&muted=${muted}&controls=true&loop=false&playsinline=true" ` +
+      `title="Video player" style="width:100%;height:100%;border:none" ` +
+      `allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;" allowfullscreen></iframe>`;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function vmodalClose() {
+    const { modal, inner } = getModal();
+    if (inner) inner.innerHTML = '';
+    if (modal) modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  (window as any).vmodalOpen = vmodalOpen;
+  (window as any).vmodalClose = vmodalClose;
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('#vmodal-inner')) return;
+    if (target.closest('#vmodal')) { vmodalClose(); return; }
+    const trigger = target.closest<HTMLElement>('[data-stream]');
+    if (trigger) vmodalOpen(trigger.dataset.stream!, trigger.dataset.silent === 'true');
+  });
+</script>
