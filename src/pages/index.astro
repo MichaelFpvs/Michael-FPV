@@ -1,0 +1,268 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, streamUrl, heroStreams, aboutStream, categories, faqs, aboutPoints, url, PLAYER_ALLOW } from '../data/site';
+
+const featured = categories.slice(0, 2);
+---
+
+<Base
+  title="Michael FPV — Charlotte Drone Cinematography"
+  description={site.description}
+  includeFaq={true}
+>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-vid-wrap">
+      <iframe
+        src={streamUrl(heroStreams.home)}
+        title="Michael FPV showreel"
+        allow={PLAYER_ALLOW}
+        aria-hidden="true"></iframe>
+    </div>
+    <div class="hero-over"></div>
+    <div class="hero-content" id="hero-content">
+      <h1 class="h-xl">MichaelFPV<br /><em>Capture Your Journey.</em></h1>
+      <p class="hero-sub">
+        At Michael FPV, we provide a full range of professional drone and FPV videography services
+        for businesses, real estate, events, and commercial productions. Using industry-leading
+        equipment and the latest technology, we capture stunning visuals that bring every project to
+        life.
+      </p>
+      <div class="hero-btns">
+        <a class="btn btn-gold" href={url('/book/')}>Book a Shoot</a>
+        <a class="btn btn-line" href={url('/portfolio/')}>View Portfolio</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hstat-n"><span style="color:#e53935">Part 107</span></div>
+          <div class="hstat-l">FAA Licensed</div>
+        </div>
+        <div>
+          <div class="hstat-n">USA Wide</div>
+          <div class="hstat-l">All 50 States</div>
+        </div>
+        <div>
+          <div class="hstat-n">Charlotte</div>
+          <div class="hstat-l">Located In</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hero-spacer" style="height:35vh"></div>
+
+  <div id="home-content" style="position:relative;z-index:2;background:var(--black)">
+    <!-- TICKER -->
+    <div class="strip">
+      <div class="strip-inner">
+        {
+          [0, 1].map(() => (
+            <>
+              <span class="strip-item">Charlotte FPV <b>&#9671;</b></span>
+              <span class="strip-item">24-Hour Delivery <b>&#9671;</b></span>
+              <span class="strip-item">
+                FAA <span style="color:#e53935">Part 107</span> Certified <b>&#9671;</b>
+              </span>
+              <span class="strip-item">Real Estate &middot; Weddings &middot; Events <b>&#9671;</b></span>
+            </>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="grid-2 rv" style="align-items:center;gap:3rem">
+          <div>
+            <div class="eyebrow">About Us</div>
+            <h2 class="h-lg" style="margin-bottom:1.8rem">About <em>Michael FPV.</em></h2>
+            <div class="about-vid">
+              <iframe
+                src={streamUrl(aboutStream)}
+                title="Michael FPV behind the scenes"
+                allow={PLAYER_ALLOW}
+                aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;justify-content:center">
+            <p class="body-txt">
+              At Michael FPV, we specialize in professional FPV drone videography that transforms
+              ordinary spaces into unforgettable experiences.
+            </p>
+            <p class="body-txt" style="margin-top:1rem">
+              Based in {site.city}, {site.regionFull}, we proudly serve clients throughout the
+              Charlotte area and are available for projects across the United States.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS + INFO CARDS -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="stat-strip rv">
+          <div class="stat-cell">
+            <div class="stat-n"><span style="color:#e53935">Part 107</span></div>
+            <div class="stat-l">FAA Licensed</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">US Wide</div>
+            <div class="stat-l">All 50 States</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">Pro Gear</div>
+            <div class="stat-l">Professional</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">Charlotte</div>
+            <div class="stat-l">NC Based</div>
+          </div>
+        </div>
+
+        <div class="grid-4 rv-stagger" style="margin-top:5rem">
+          <div class="card">
+            <div class="eyebrow" style="margin-bottom:0.8rem">
+              <span style="color:#e53935">Part 107</span>
+            </div>
+            <h3 class="h-md" style="font-size:1.1rem;margin-bottom:0.8rem">
+              What is FAA <span style="color:#e53935">Part 107</span>?
+            </h3>
+            <p class="body-sm">
+              <span style="color:#e53935">Part 107</span> is the FAA's commercial drone pilot certification.
+              Every shoot is fully legal, insured, and compliant.
+            </p>
+          </div>
+          <div class="card">
+            <div class="eyebrow" style="margin-bottom:0.8rem">US Wide</div>
+            <h3 class="h-md" style="font-size:1.1rem;margin-bottom:0.8rem">What states do we serve?</h3>
+            <p class="body-sm">
+              Charlotte area with no travel fee. Available nationwide across all 50 states — travel
+              costs quoted upfront.
+            </p>
+          </div>
+          <div class="card">
+            <div class="eyebrow" style="margin-bottom:0.8rem">Pro Gear</div>
+            <h3 class="h-md" style="font-size:1.1rem;margin-bottom:0.8rem">What gear do we use?</h3>
+            <p class="body-sm">
+              A standard DJI drone for aerials and HDR photography, plus a custom-built FPV cinewhoop
+              for indoor flythroughs. Both shoot 4K.
+            </p>
+          </div>
+          <div class="card">
+            <div class="eyebrow" style="margin-bottom:0.8rem">Location</div>
+            <h3 class="h-md" style="font-size:1.1rem;margin-bottom:0.8rem">Located in Charlotte, NC</h3>
+            <p class="body-sm">
+              Locally based services across the Charlotte area — Uptown, Ballantyne, Lake Norman,
+              Concord, and beyond.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED WORK -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div
+          class="rv"
+          style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem"
+        >
+          <div>
+            <div class="eyebrow">Selected Work</div>
+            <h2 class="h-lg">From the <em>portfolio.</em></h2>
+          </div>
+          <a class="btn btn-line" href={url('/portfolio/')}>View All Work</a>
+        </div>
+        <div class="grid-2 rv-stagger">
+          {
+            featured.map((cat) => (
+              <a
+                href={url(`/portfolio/${cat.slug}/`)}
+                class="pf-cat pf-cat--tall"
+                aria-label={`View ${cat.title} portfolio`}
+              >
+                <iframe
+                  src={streamUrl(cat.cover!)}
+                  title={`${cat.title} preview`}
+                  allow={PLAYER_ALLOW}
+                  aria-hidden="true"
+                />
+                <div class="pf-cat-scrim" />
+                <div class="pf-cat-over" />
+                <div class="pf-cat-info">
+                  <div style="font-family:var(--M);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.4rem">
+                    {cat.num}
+                  </div>
+                  <div style="font-family:var(--D);font-size:1.4rem;font-weight:700;color:#fff">
+                    {cat.title}
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="eyebrow rv">Questions</div>
+        <h2 class="h-lg rv" style="margin-bottom:2rem">What people <em>ask.</em></h2>
+        <div class="grid-3 rv-stagger" style="gap:1.2rem">
+          {
+            faqs.map((f) => (
+              <div class="card">
+                <h3
+                  class="h-md"
+                  style="font-size:1rem;margin-bottom:0.8rem"
+                  set:html={f.q.replace('Part 107', '<span style="color:#e53935">Part 107</span>')}
+                />
+                <p
+                  class="body-sm"
+                  set:html={f.a.replace('Part 107', '<span style="color:#e53935">Part 107</span>')}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO YOU'RE HIRING -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="eyebrow rv">Who You're Hiring</div>
+        <h2 class="h-lg rv" style="margin-bottom:2.5rem">A small operation,<br /><em>on purpose.</em></h2>
+        <div class="grid-2 rv-stagger" style="gap:1.2rem">
+          {
+            aboutPoints.map((p) => (
+              <div class="card">
+                <h3 class="h-md" style="font-size:1.05rem;margin-bottom:0.7rem">{p.title}</h3>
+                <p class="body-sm">{p.body}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div
+          class="rv"
+          style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4rem 3rem;text-align:center"
+        >
+          <h2 class="h-lg" style="margin-bottom:1rem">Have a listing<br />worth <em>filming?</em></h2>
+          <p class="body-txt" style="max-width:480px;margin:0 auto 2rem">
+            Send the address or scope, we'll get back within the hour during business hours.
+          </p>
+          <a class="btn btn-gold" href={url('/book/')}>Book a Shoot</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
