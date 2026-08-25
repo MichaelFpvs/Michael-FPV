@@ -25,7 +25,22 @@ const business = {
   '@type': 'ProfessionalService',
   '@id': `${origin}#business`,
   name: site.name,
-  alternateName: 'Michael FPV Drone Cinematography',
+  // Every spelling someone might type or that another site might use.
+  // Helps Google connect these variants to one business.
+  alternateName: [
+    'MichaelFPV',
+    'Michael FPV Drone Cinematography',
+    'Michael FPV Charlotte',
+    'Michael FPV Drone',
+  ],
+  slogan: 'Capture Your Journey',
+  knowsAbout: [
+    'FPV drone cinematography',
+    'Real estate videography',
+    'Wedding videography',
+    'Aerial photography',
+    'Drone flythroughs',
+  ],
   description: site.description,
   url: origin,
   telephone: '+1-980-397-9127',
@@ -68,11 +83,27 @@ const webpage = {
   about: { '@id': `${origin}#business` },
 };
 
+const person = {
+  '@type': 'Person',
+  '@id': `${origin}#owner`,
+  name: site.owner,
+  jobTitle: 'FPV Drone Pilot and Cinematographer',
+  worksFor: { '@id': `${origin}#business` },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.city,
+    addressRegion: site.region,
+    addressCountry: 'US',
+  },
+  sameAs: [site.instagram],
+};
+
 const website = {
   '@type': 'WebSite',
   '@id': `${origin}#website`,
   url: origin,
   name: site.name,
+  alternateName: 'MichaelFPV',
   publisher: { '@id': `${origin}#business` },
   inLanguage: 'en-US',
 };
@@ -92,7 +123,7 @@ const faqNode = includeFaq
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [business, website, webpage, ...faqNode, ...schema],
+  '@graph': [business, person, website, webpage, ...faqNode, ...schema],
 };
 ---
 
