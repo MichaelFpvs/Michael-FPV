@@ -1,0 +1,339 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, services, streamUrl, heroStreams, url, PLAYER_ALLOW } from '../data/site';
+import {
+  alwaysIncluded,
+  timelines,
+  bookingSteps,
+  coverage,
+  servicesFaq,
+} from '../data/services';
+
+const schema = [
+  ...services.slice(0, 3).map((s) => ({
+    '@type': 'Service',
+    name: s.title,
+    description: s.body,
+    provider: { '@id': `${Astro.site?.href}#business` },
+    areaServed: { '@type': 'City', name: 'Charlotte' },
+  })),
+  {
+    '@type': 'FAQPage',
+    mainEntity: servicesFaq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<Base
+  title="Services & Packages — Drone Video Charlotte | Michael FPV"
+  description="Drone video packages for real estate, weddings, venues, and production FPV in Charlotte NC. 4K delivery, color grading, and footage you own outright."
+  schema={schema}
+>
+  <div style="position:relative">
+    <div id="svc-hero">
+      <div style="position:absolute;inset:0;overflow:hidden;background:#000">
+        <iframe
+          src={streamUrl(heroStreams.services)}
+          title="Services overview reel"
+          allow={PLAYER_ALLOW}
+          aria-hidden="true"
+          style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;border:none;pointer-events:none;opacity:0.75"
+        ></iframe>
+      </div>
+      <div
+        style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,13,18,0.97) 0%,rgba(10,13,18,0.5) 45%,rgba(10,13,18,0.15) 100%)"
+      >
+      </div>
+      <div id="svc-hero-content">
+        <div class="eyebrow">What We Offer</div>
+        <h1 class="h-xl" style="margin-top:1rem">Services, <em>full kit.</em></h1>
+        <p class="hero-sub">
+          Transparent pricing across every vertical we shoot. Custom quotes available for commercial
+          and production work.
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-spacer" style="height:35vh"></div>
+
+    <div style="position:relative;z-index:3;background:var(--black)">
+      <!-- PACKAGES -->
+      <section class="sec">
+        <div class="wrap">
+          <div class="rv" style="margin-bottom:2.5rem">
+            <div class="eyebrow">Pricing</div>
+            <h2 class="h-lg">Services we <em>deliver.</em></h2>
+          </div>
+
+          <div class="rv">
+            {
+              services.map((s) => (
+                <div class="svc-row" role="button" tabindex="0" aria-expanded="false">
+                  <div class="svc-top">
+                    <div class="svc-tag">{s.tag}</div>
+                    <div class="svc-body-h">
+                      <h3>{s.title}</h3>
+                      <p class="svc-preview">{s.preview}</p>
+                    </div>
+                    <div class="svc-caret">+</div>
+                  </div>
+                  <div class="svc-body">
+                    <div class="svc-panel-in">
+                      <p>{s.body}</p>
+                      <ul>
+                        {s.points.map((pt) => (
+                          <li>{pt}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ALWAYS INCLUDED -->
+      <section class="sec" style="padding-top:0">
+        <div class="wrap">
+          <div class="eyebrow rv" style="margin-bottom:1rem">Every Booking</div>
+          <h2 class="h-lg rv" style="margin-bottom:2.5rem">What's always <em>included.</em></h2>
+          <div class="ed-list rv">
+            {
+              alwaysIncluded.map((i) => (
+                <div class="ed-item">
+                  <h3>{i.title}</h3>
+                  <p>{i.body}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- TURNAROUND -->
+      <section class="sec" style="padding-top:0">
+        <div class="wrap">
+          <div class="eyebrow rv" style="margin-bottom:1rem">Turnaround</div>
+          <h2 class="h-lg rv" style="margin-bottom:2.5rem">When you get <em>your files.</em></h2>
+          <div class="rv svc-table">
+            {
+              timelines.map((t) => (
+                <div class="svc-table-row">
+                  <div class="svc-table-type">{t.type}</div>
+                  <div class="svc-table-time">{t.time}</div>
+                  <div class="svc-table-note">{t.note}</div>
+                </div>
+              ))
+            }
+          </div>
+          <p class="body-sm rv" style="margin-top:1.2rem">
+            Rush delivery is available on request. Timelines are estimates and can vary with project
+            complexity.
+          </p>
+        </div>
+      </section>
+
+      <!-- HOW BOOKING WORKS -->
+      <section class="sec" style="padding-top:0">
+        <div class="wrap">
+          <div class="eyebrow rv" style="margin-bottom:1rem">The Process</div>
+          <h2 class="h-lg rv" style="margin-bottom:2.5rem">How booking <em>works.</em></h2>
+          <div class="rv">
+            {
+              bookingSteps.map((s) => (
+                <div class="num-row" style="cursor:default">
+                  <div class="num-tag">{s.n}</div>
+                  <div class="num-body">
+                    <h3>{s.title}</h3>
+                    <p>{s.body}</p>
+                  </div>
+                  <div />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- COVERAGE -->
+      <section class="sec" style="padding-top:0">
+        <div class="wrap">
+          <div class="eyebrow rv" style="margin-bottom:1rem">Coverage</div>
+          <h2 class="h-lg rv" style="margin-bottom:2.5rem">Where we <em>fly.</em></h2>
+          <div class="ed-list rv">
+            {
+              coverage.map((c) => (
+                <div class="ed-item">
+                  <h3>{c.title}</h3>
+                  <p>{c.body}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="sec" style="padding-top:0">
+        <div class="wrap">
+          <div class="eyebrow rv" style="margin-bottom:1rem">Before You Book</div>
+          <h2 class="h-lg rv" style="margin-bottom:2.5rem">Common <em>questions.</em></h2>
+          <div class="ed-list rv">
+            {
+              servicesFaq.map((f) => (
+                <div class="ed-item">
+                  <h3>{f.q}</h3>
+                  <p>{f.a}</p>
+                </div>
+              ))
+            }
+          </div>
+          <p class="body-sm rv" style="margin-top:1.5rem">
+            Full booking, deposit, and cancellation terms are on the
+            <a href={url('/terms/')} style="color:var(--gold)">Terms of Service</a> page.
+          </p>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="sec" style="padding-top:0">
+        <div class="wrap">
+          <div
+            class="rv"
+            style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4.5rem 3rem;text-align:center"
+          >
+            <div class="eyebrow" style="justify-content:center;margin-bottom:1.2rem">Get Started</div>
+            <h2 class="h-lg" style="margin-bottom:1rem">
+              Connect with us.<br />The real <em>price reveals.</em>
+            </h2>
+            <p class="body-txt" style="max-width:480px;margin:0 auto 2.5rem">
+              Every project is priced individually. Reach out and we'll put a number together within
+              the hour.
+            </p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+              <a class="btn btn-gold" href={url('/book/')}>Book a Shoot</a>
+              <a href={site.phoneHref} class="btn btn-line">{site.phone}</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+  #svc-hero {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 2;
+  }
+  #svc-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 2.5rem 4.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  @media (max-width: 700px) {
+    #svc-hero-content { padding: 0 1.4rem 3rem; }
+  }
+
+  .svc-table { border-top: 1px solid var(--line); }
+  .svc-table-row {
+    display: grid;
+    grid-template-columns: 1fr auto 2fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.3rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .svc-table-type {
+    font-family: var(--D);
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .svc-table-time {
+    font-family: var(--M);
+    font-size: 0.82rem;
+    color: var(--gold2);
+    white-space: nowrap;
+  }
+  .svc-table-note {
+    font-family: var(--S);
+    font-size: 0.86rem;
+    font-weight: 300;
+    color: var(--grey3);
+    line-height: 1.7;
+  }
+  @media (max-width: 700px) {
+    .svc-table-row { grid-template-columns: 1fr auto; gap: 0.5rem 1rem; }
+    .svc-table-note { grid-column: 1 / -1; }
+  }
+</style>
+
+<script>
+  function initServices() {
+    document.querySelectorAll<HTMLElement>('.svc-row').forEach((row) => {
+      if ((row as any)._bound) return;
+      (row as any)._bound = true;
+      row.addEventListener('click', () => {
+        const body = row.querySelector<HTMLElement>('.svc-body')!;
+        const isOpen = row.classList.contains('open');
+        document.querySelectorAll<HTMLElement>('.svc-row.open').forEach((r) => {
+          r.classList.remove('open');
+          r.setAttribute('aria-expanded', 'false');
+          r.querySelector<HTMLElement>('.svc-body')!.style.maxHeight = '';
+        });
+        if (!isOpen) {
+          row.classList.add('open');
+          row.setAttribute('aria-expanded', 'true');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+    });
+  }
+
+  let svcHero: HTMLElement | null = null;
+  let svcContent: HTMLElement | null = null;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!svcHero) return;
+      // Desktop-only effect. On phones the hero is a static block.
+      if (window.matchMedia('(max-width: 900px)').matches) return;
+      const p = Math.min(Math.max(window.scrollY / (window.innerHeight * 0.12), 0), 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      svcHero.style.opacity = String(1 - e);
+      svcHero.style.transform = `scale(${1 - e * 0.05}) translateY(${-e * 50}px)`;
+      if (svcContent) {
+        let ec = Math.min(p / 0.3, 1);
+        ec = 1 - Math.pow(1 - ec, 2);
+        svcContent.style.opacity = String(1 - ec);
+        svcContent.style.transform = `translateY(${-ec * 60}px)`;
+      }
+    },
+    { passive: true }
+  );
+
+  function initHero() {
+    svcHero = document.getElementById('svc-hero');
+    svcContent = document.getElementById('svc-hero-content');
+    initServices();
+  }
+
+  initHero();
+  document.addEventListener('astro:page-load', initHero);
+</script>
