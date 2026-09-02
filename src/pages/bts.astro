@@ -55,6 +55,32 @@ const btsVideos = ['bb0125f037c6c25e16526dad7c869fb4', '580409878c4579b2c7d65eed
     <div class="wrap">
       <div class="eyebrow rv" style="margin-bottom:1rem">The Gear</div>
       <h2 class="h-lg rv" style="margin-bottom:2.5rem">What we <em>fly.</em></h2>
+
+      <div class="gear-lead rv">
+        <figure class="gear-shot">
+          <img
+            src={url('/gear.jpg')}
+            alt="A ducted FPV cinewhoop held up inside an event marquee before a shoot, with rows of seating and the stage behind it"
+            width="768"
+            height="1024"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div class="gear-lead-text">
+          <p class="body-txt">
+            Ten minutes before guests sat down. We fly the right aircraft for the job, and for
+            anything indoors that means this one — caged, small enough to pass between rows of
+            chairs, and quiet enough that most people never look up.
+          </p>
+          <p class="body-txt" style="margin-top:1rem">
+            Whatever the shoot needs, we bring the gear that does it properly: this rig for
+            interiors and tight spaces, a full-size drone for aerials and exteriors. No compromising
+            the shot because it's the only drone in the bag.
+          </p>
+        </div>
+      </div>
+
       <div class="grid-2 rv-stagger" style="gap:2.5rem">
         {
           btsGear.map((g) => (
@@ -98,7 +124,7 @@ const btsVideos = ['bb0125f037c6c25e16526dad7c869fb4', '580409878c4579b2c7d65eed
     <div class="wrap">
       <div
         class="rv"
-        style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4rem 3rem;text-align:center"
+        style="background:var(--paper-2);border:1px solid var(--rule);border-radius:20px;padding:4rem 3rem;text-align:center"
       >
         <h2 class="h-lg" style="margin-bottom:1rem">Let's get your<br /><em>shoot scheduled.</em></h2>
         <a class="btn btn-gold" href={url('/book/')}>Book a Shoot</a>
@@ -114,7 +140,7 @@ const btsVideos = ['bb0125f037c6c25e16526dad7c869fb4', '580409878c4579b2c7d65eed
     flex: 1;
     border-radius: 14px;
     overflow: hidden;
-    background: var(--b2);
+    background: var(--paper-3);
   }
   .bts-vid iframe {
     position: absolute;

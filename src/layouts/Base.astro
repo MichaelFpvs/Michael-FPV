@@ -121,9 +121,40 @@ const faqNode = includeFaq
     ]
   : [];
 
+// Breadcrumbs let Google show "michaelfpv.com › Portfolio › Weddings"
+// in results rather than a raw URL.
+const segments = Astro.url.pathname
+  .replace(import.meta.env.BASE_URL, '/')
+  .split('/')
+  .filter(Boolean);
+
+const crumbs =
+  segments.length === 0
+    ? []
+    : [
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: origin },
+            ...segments.map((seg, i) => ({
+              '@type': 'ListItem',
+              position: i + 2,
+              name: seg
+                .split('-')
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(' '),
+              item: new URL(
+                segments.slice(0, i + 1).join('/') + '/',
+                Astro.site
+              ).href,
+            })),
+          ],
+        },
+      ];
+
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [business, person, website, webpage, ...faqNode, ...schema],
+  '@graph': [business, person, website, webpage, ...crumbs, ...faqNode, ...schema],
 };
 ---
 
@@ -137,12 +168,22 @@ const jsonLd = {
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="author" content={site.owner} />
-    <meta name="theme-color" content="#0a0d12" />
+    <meta name="theme-color" content="#141110" />
     <meta name="geo.region" content="US-NC" />
     <meta name="geo.placename" content={site.city} />
 
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <link rel="apple-touch-icon" href={url('/favicon.svg')} />
+
+    <!-- Safari and iOS. Without these the site looks generic when saved
+         to a home screen, and Safari invents a name from the URL. -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Michael FPV" />
+    <link rel="mask-icon" href={url('/favicon.svg')} color="#d1543a" />
+    <!-- Stops iOS turning stray numbers into phone links inside body copy. -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="application-name" content="Michael FPV" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -168,7 +209,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:opsz,wght@14..32,300;14..32,500;14..32,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Inter:opsz,wght@14..32,400;14..32,500&display=swap"
       rel="stylesheet"
     />
 
@@ -178,7 +219,7 @@ const jsonLd = {
     <ClientRouter />
   </head>
 
-  <body>
+  <body class={Astro.url.pathname === (import.meta.env.BASE_URL || "/") ? "" : "no-hero"}>
     <a href="#main" class="skip-link">Skip to content</a>
     <Nav />
     <VideoModal />
@@ -257,9 +298,108 @@ const jsonLd = {
         }, 400);
       })();
 
+      // ── MAGNETIC BUTTONS ──────────────────────────────────────
+      // Buttons lean very slightly toward the cursor. Subtle enough
+      // that it reads as responsiveness rather than a gimmick, and
+      // skipped entirely on touch, where there is no cursor to follow.
+      const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
+      const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function bindMagnetic() {
+        if (!FINE_POINTER || REDUCED) return;
+        document.querySelectorAll<HTMLElement>('.btn, .nav-cta').forEach((el) => {
+          if ((el as any)._mag) return;
+          (el as any)._mag = true;
+          el.style.willChange = 'transform';
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) / r.width;
+            const y = (e.clientY - r.top - r.height / 2) / r.height;
+            el.style.transform = `translate(${x * 6}px, ${y * 4}px)`;
+          });
+          el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+        });
+      }
+
+      // ── TILE PARALLAX ─────────────────────────────────────────
+      // Video inside each tile drifts a little slower than the page.
+      // Uses one shared observer and a single rAF loop rather than a
+      // scroll handler per tile.
+      let parallaxTiles: HTMLElement[] = [];
+      let ticking = false;
+      function runParallax() {
+        const vh = window.innerHeight;
+        parallaxTiles.forEach((tile) => {
+          const r = tile.getBoundingClientRect();
+          if (r.bottom < -200 || r.top > vh + 200) return;
+          const progress = (r.top + r.height / 2 - vh / 2) / vh;
+          const frame = tile.querySelector<HTMLElement>('iframe');
+          if (frame) frame.style.setProperty('--drift', `${(-progress * 14).toFixed(2)}px`);
+        });
+        ticking = false;
+      }
+      function onScrollParallax() {
+        if (ticking || REDUCED) return;
+        ticking = true;
+        requestAnimationFrame(runParallax);
+      }
+      window.addEventListener('scroll', onScrollParallax, { passive: true });
+
+      function bindParallax() {
+        if (REDUCED) return;
+        parallaxTiles = Array.from(document.querySelectorAll<HTMLElement>('.pf-cat, .cat-vid'));
+        runParallax();
+      }
+
+      // ── HERO HANDOFF ──────────────────────────────────────────
+      // As the content rises over the hero, the hero sinks slightly and
+      // dims. One rAF-throttled handler, and it detaches on pages that
+      // have no hero so nothing runs needlessly.
+      let heroEl: HTMLElement | null = null;
+      let heroTick = false;
+      function runHero() {
+        if (!heroEl) { heroTick = false; return; }
+        const vh = window.innerHeight;
+        const p = Math.min(Math.max(window.scrollY / vh, 0), 1);
+        const eased = p * p;
+        // The hero doesn't just fade — it recedes, blurs, and lets go.
+        // Each part moves at its own rate so it comes apart rather than
+        // dimming as one flat sheet.
+        heroEl.style.setProperty('--hero-scale', String(1 - eased * 0.12));
+        heroEl.style.setProperty('--hero-lift', `${-eased * 70}px`);
+        heroEl.style.setProperty('--hero-fade', String(1 - eased * 0.95));
+        heroEl.style.setProperty('--hero-blur', `${eased * 7}px`);
+
+        // Text leaves first and travels further, so the words clear the
+        // frame before the footage behind them is gone.
+        const content = heroEl.querySelector('.hero-content') as HTMLElement | null;
+        if (content) {
+          const t = Math.min(p / 0.62, 1);
+          const te = t * t;
+          content.style.setProperty('--hc-fade', String(1 - te));
+          content.style.setProperty('--hc-lift', `${-te * 120}px`);
+          content.style.setProperty('--hc-blur', `${te * 5}px`);
+        }
+        heroTick = false;
+      }
+      function onHeroScroll() {
+        if (heroTick || !heroEl || REDUCED) return;
+        heroTick = true;
+        requestAnimationFrame(runHero);
+      }
+      window.addEventListener('scroll', onHeroScroll, { passive: true });
+
+      function bindHero() {
+        heroEl = document.getElementById('hero');
+        if (heroEl && !REDUCED) runHero();
+      }
+
       function initPage() {
         navEl = document.getElementById('nav');
         onScroll();
+        bindMagnetic();
+        bindParallax();
+        bindHero();
 
         document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-stagger').forEach((el) => {
           if ((el as any)._seen) return;

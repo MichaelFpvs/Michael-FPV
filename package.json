@@ -17,5 +17,12 @@
     "astro": "^7.1.6"
   },
   "private": true,
-  "type": "module"
+  "type": "module",
+  "browserslist": [
+    "> 0.3%",
+    "last 3 versions",
+    "not dead",
+    "safari >= 12",
+    "ios_saf >= 12"
+  ]
 }

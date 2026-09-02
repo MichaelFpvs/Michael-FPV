@@ -18,7 +18,7 @@ export const url = (path: string): string => {
 
 export const site = {
   name: 'Michael FPV',
-  owner: 'Michael Yushchenko',
+  owner: 'Michael',
   tagline: 'Charlotte Drone Cinematography',
   description:
     'FPV drone flythroughs, aerial video, and HDR photography for real estate, weddings, and brands. FAA Part 107 certified. Charlotte NC, available nationwide.',
@@ -75,6 +75,8 @@ export type Category = {
   shortTitle?: string;
   /** Video shown as the tile background on /portfolio */
   cover?: string;
+  /** One line shown on the portfolio page, written for a reader */
+  blurb?: string;
   /** Meta description for this category's own page */
   metaDescription: string;
   videos?: Video[];
@@ -84,6 +86,7 @@ export type Category = {
 export const categories: Category[] = [
   {
     slug: 'weddings',
+    blurb: 'Ceremony and reception coverage, flown quiet and kept out of the way.',
     num: '01',
     title: 'Weddings',
     cover: 'f95bab7559567c9703e0a6ffab7be5cf',
@@ -106,6 +109,7 @@ export const categories: Category[] = [
   },
   {
     slug: 'moto-auto',
+    blurb: 'Chase and tracking work. Cars, bikes, and anything moving fast.',
     num: '02',
     title: 'Moto Auto',
     cover: '799eeefcb246891cde55f81bde9edd21',
@@ -118,6 +122,7 @@ export const categories: Category[] = [
   },
   {
     slug: 'real-estate',
+    blurb: 'One unbroken flight through the property, entry to exterior.',
     num: '03',
     title: 'Real Estate & Fly Thru',
     shortTitle: 'Real Estate',
@@ -128,6 +133,7 @@ export const categories: Category[] = [
   },
   {
     slug: 'production',
+    blurb: 'Venues, brands, and commercial shoots.',
     num: '04',
     title: 'Production',
     cover: 'c9469edb28bf6f463bba232523496082',

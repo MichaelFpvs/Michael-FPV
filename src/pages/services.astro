@@ -45,7 +45,7 @@ const schema = [
         ></iframe>
       </div>
       <div
-        style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,13,18,0.97) 0%,rgba(10,13,18,0.5) 45%,rgba(10,13,18,0.15) 100%)"
+        style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(13,11,10,0.97) 0%,rgba(13,11,10,0.5) 45%,rgba(13,11,10,0.15) 100%)"
       >
       </div>
       <div id="svc-hero-content">
@@ -58,9 +58,7 @@ const schema = [
       </div>
     </div>
 
-    <div class="hero-spacer" style="height:35vh"></div>
-
-    <div style="position:relative;z-index:3;background:var(--black)">
+    <div style="position:relative;z-index:3;background:var(--paper)">
       <!-- PACKAGES -->
       <section class="sec">
         <div class="wrap">
@@ -103,10 +101,10 @@ const schema = [
         <div class="wrap">
           <div class="eyebrow rv" style="margin-bottom:1rem">Every Booking</div>
           <h2 class="h-lg rv" style="margin-bottom:2.5rem">What's always <em>included.</em></h2>
-          <div class="ed-list rv">
+          <div class="inc-grid rv-stagger">
             {
               alwaysIncluded.map((i) => (
-                <div class="ed-item">
+                <div class="inc-card">
                   <h3>{i.title}</h3>
                   <p>{i.body}</p>
                 </div>
@@ -196,7 +194,7 @@ const schema = [
           </div>
           <p class="body-sm rv" style="margin-top:1.5rem">
             Full booking, deposit, and cancellation terms are on the
-            <a href={url('/terms/')} style="color:var(--gold)">Terms of Service</a> page.
+            <a href={url('/terms/')} style="color:var(--accent)">Terms of Service</a> page.
           </p>
         </div>
       </section>
@@ -206,7 +204,7 @@ const schema = [
         <div class="wrap">
           <div
             class="rv"
-            style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4.5rem 3rem;text-align:center"
+            style="background:var(--paper-2);border:1px solid var(--rule);border-radius:20px;padding:4.5rem 3rem;text-align:center"
           >
             <div class="eyebrow" style="justify-content:center;margin-bottom:1.2rem">Get Started</div>
             <h2 class="h-lg" style="margin-bottom:1rem">
@@ -250,32 +248,32 @@ const schema = [
     #svc-hero-content { padding: 0 1.4rem 3rem; }
   }
 
-  .svc-table { border-top: 1px solid var(--line); }
+  .svc-table { border-top: 1px solid var(--rule); }
   .svc-table-row {
     display: grid;
     grid-template-columns: 1fr auto 2fr;
     gap: 1.5rem;
     align-items: baseline;
     padding: 1.3rem 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--rule);
   }
   .svc-table-type {
     font-family: var(--D);
     font-size: 1.02rem;
     font-weight: 700;
-    color: var(--white);
+    color: var(--ink);
   }
   .svc-table-time {
     font-family: var(--M);
     font-size: 0.82rem;
-    color: var(--gold2);
+    color: var(--accent-2);
     white-space: nowrap;
   }
   .svc-table-note {
     font-family: var(--S);
     font-size: 0.86rem;
     font-weight: 300;
-    color: var(--grey3);
+    color: var(--body);
     line-height: 1.7;
   }
   @media (max-width: 700px) {

@@ -1,8 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site, streamUrl, heroStreams, aboutStream, categories, faqs, aboutPoints, url, filmCount, PLAYER_ALLOW } from '../data/site';
+import { site, streamUrl, heroStreams, aboutStream, categories, faqs, aboutPoints, services, url, filmCount, PLAYER_ALLOW } from '../data/site';
 
-const featured = categories.slice(0, 2);
+// Just two on the home page — a taste, not the whole portfolio.
+const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'moto-auto');
 ---
 
 <Base
@@ -21,7 +22,7 @@ const featured = categories.slice(0, 2);
     </div>
     <div class="hero-over"></div>
     <div class="hero-content" id="hero-content">
-      <h1 class="h-xl">MichaelFPV<br /><em>Capture Your Journey.</em></h1>
+      <h1 class="h-xl">One flight.<br /><em>No cuts.</em></h1>
       <p class="hero-sub">
         At Michael FPV, we provide a full range of professional drone and FPV videography services
         for businesses, real estate, events, and commercial productions. Using industry-leading
@@ -34,7 +35,7 @@ const featured = categories.slice(0, 2);
       </div>
       <div class="hero-stats">
         <div>
-          <div class="hstat-n"><span style="color:#e53935">Part 107</span></div>
+          <div class="hstat-n"><span class="badge-107">Part 107</span></div>
           <div class="hstat-l">FAA Licensed</div>
         </div>
         <div>
@@ -49,9 +50,7 @@ const featured = categories.slice(0, 2);
     </div>
   </section>
 
-  <div class="hero-spacer" style="height:35vh"></div>
-
-  <div id="home-content" style="position:relative;z-index:2;background:var(--black)">
+  <div id="home-content" style="position:relative;z-index:2;background:var(--paper)">
     <!-- TICKER -->
     <div class="strip">
       <div class="strip-inner">
@@ -61,7 +60,7 @@ const featured = categories.slice(0, 2);
               <span class="strip-item">Charlotte FPV <b>&#9671;</b></span>
               <span class="strip-item">24-Hour Delivery <b>&#9671;</b></span>
               <span class="strip-item">
-                FAA <span style="color:#e53935">Part 107</span> Certified <b>&#9671;</b>
+                FAA <span style="color:var(--signal)">Part 107</span> Certified <b>&#9671;</b>
               </span>
               <span class="strip-item">Real Estate &middot; Weddings &middot; Events <b>&#9671;</b></span>
             </>
@@ -75,8 +74,8 @@ const featured = categories.slice(0, 2);
       <div class="wrap">
         <div class="grid-2 rv" style="align-items:center;gap:3rem">
           <div>
-            <div class="eyebrow">About Us</div>
-            <h2 class="h-lg" style="margin-bottom:1.8rem">About <em>Michael FPV.</em></h2>
+            <div class="eyebrow">What We Do</div>
+            <h2 class="h-lg" style="margin-bottom:1.8rem">The <em>work.</em></h2>
             <div class="about-vid">
               <iframe
                 src={streamUrl(aboutStream)}
@@ -102,44 +101,120 @@ const featured = categories.slice(0, 2);
     <!-- FEATURED WORK -->
     <section class="sec" style="padding-top:0">
       <div class="wrap">
-        <div
-          class="rv"
-          style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem"
-        >
+        <div class="reel-head rv">
           <div>
             <div class="eyebrow">Selected Work</div>
             <h2 class="h-lg">From the <em>portfolio.</em></h2>
           </div>
           <a class="btn btn-line" href={url('/portfolio/')}>View All Work</a>
         </div>
-        <div class="grid-2 rv-stagger">
-          {
-            featured.map((cat) => (
-              <a
-                href={url(`/portfolio/${cat.slug}/`)}
-                class="pf-cat pf-cat--tall"
-                aria-label={`View ${cat.title} portfolio`}
-              >
+      </div>
+
+      <div class="wrap">
+        <div class="reel">
+        {
+          featured.map((cat, i) => (
+            <a
+              href={url(`/portfolio/${cat.slug}/`)}
+              class="reel-item rv"
+              aria-label={`View ${cat.title} work`}
+            >
+              <div class="reel-media">
                 <iframe
                   src={streamUrl(cat.cover!)}
                   title={`${cat.title} preview`}
                   allow={PLAYER_ALLOW}
                   aria-hidden="true"
                 />
-                <div class="pf-cat-scrim" />
-                <div class="pf-cat-over" />
-                <div class="pf-cat-info">
-                  <div class="pf-count">
+                <div class="reel-scrim" />
+              </div>
+              <div class="reel-label">
+                <div class="reel-label-inner">
+                  <span class="reel-num">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="reel-title">{cat.title}</h3>
+                  <span class="reel-count">
                     {filmCount(cat)} {filmCount(cat) === 1 ? 'film' : 'films'}
-                  </div>
-                  <div style="font-family:var(--D);font-size:1.4rem;font-weight:700;color:#fff">
-                    {cat.title}
-                  </div>
+                    <span class="reel-arrow" aria-hidden="true">→</span>
+                  </span>
                 </div>
+              </div>
+            </a>
+          ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE SHOOT -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-lead rv">
+          <div class="eyebrow">What We Shoot</div>
+          <h2 class="h-lg">Every job, <em>one pilot.</em></h2>
+        </div>
+
+        <div class="svc-cards rv-stagger">
+          {
+            [services[0], services[3], services[4], services[5]].map((s) => (
+              <a href={url('/services/')} class="svc-card">
+                <h3 class="svc-card-title">{s.title.replace(' — ', ' ')}</h3>
+                <p class="svc-card-text">{s.preview}</p>
+                <span class="svc-card-more">
+                  Details <span aria-hidden="true">→</span>
+                </span>
               </a>
             ))
           }
         </div>
+
+        <div class="svc-foot rv">
+          <p class="body-sm">
+            Every booking includes 4K delivery, colour grading, and footage you own outright.
+          </p>
+          <a class="btn btn-line" href={url('/services/')}>All Services &amp; Pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT YOU CAN BOOK -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-lead rv">
+          <div class="eyebrow">What You Can Book</div>
+          <h2 class="h-lg">Four ways to <em>work together.</em></h2>
+        </div>
+
+        <div class="book-grid rv-stagger">
+          <a class="book-card" href={url('/services/')}>
+            <span class="book-num">01</span>
+            <h3>Real estate</h3>
+            <p>One continuous flythrough of the property. MLS-ready, delivered in 24 hours.</p>
+            <span class="book-go" aria-hidden="true">→</span>
+          </a>
+          <a class="book-card" href={url('/services/')}>
+            <span class="book-num">02</span>
+            <h3>Weddings</h3>
+            <p>Ceremony and reception aerials, flown quiet, alongside your main video team.</p>
+            <span class="book-go" aria-hidden="true">→</span>
+          </a>
+          <a class="book-card" href={url('/services/')}>
+            <span class="book-num">03</span>
+            <h3>Commercial &amp; venues</h3>
+            <p>Interior flythroughs and exterior aerials for hotels, restaurants, and event spaces.</p>
+            <span class="book-go" aria-hidden="true">→</span>
+          </a>
+          <a class="book-card" href={url('/services/')}>
+            <span class="book-num">04</span>
+            <h3>Production FPV</h3>
+            <p>Cinema-grade tracking for ads, music videos, and branded shoots. Custom scope.</p>
+            <span class="book-go" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <p class="book-note rv">
+          Every booking includes 4K, colour grading, and footage you own outright.
+          <a href={url('/services/')}>See the full breakdown →</a>
+        </p>
       </div>
     </section>
 
@@ -154,8 +229,8 @@ const featured = categories.slice(0, 2);
           {
             faqs.map((f) => (
               <div class="ed-item">
-                <h3 set:html={f.q.replace('Part 107', '<span style="color:#e53935">Part 107</span>')} />
-                <p set:html={f.a.replace('Part 107', '<span style="color:#e53935">Part 107</span>')} />
+                <h3 set:html={f.q.replace('Part 107', '<span style="color:var(--signal)">Part 107</span>')} />
+                <p set:html={f.a.replace('Part 107', '<span style="color:var(--signal)">Part 107</span>')} />
               </div>
             ))
           }
@@ -166,9 +241,32 @@ const featured = categories.slice(0, 2);
     <!-- WHO YOU'RE HIRING -->
     <section class="sec" style="padding-top:0">
       <div class="wrap">
-        <div class="sec-lead rv">
-          <div class="eyebrow">Who You're Hiring</div>
-          <h2 class="h-lg">A small operation,<br /><em>on purpose.</em></h2>
+        <div class="pilot rv">
+          <div class="pilot-photo">
+            <img
+              src={url('/michael.jpg')}
+              alt="Michael flying an FPV drone, wearing video goggles and holding the controller"
+              width="797"
+              height="1196"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="pilot-text">
+            <div class="eyebrow">The Pilot</div>
+            <h2 class="h-lg">About <em>Michael.</em></h2>
+            <p class="body-txt" style="margin-top:1.6rem">
+              I'm Michael, and I'm in my third year flying FPV. Everything on this site was shot by
+              me — I fly it, I cut it, and I'm the person you'll be dealing with from the first
+              message to the final file.
+            </p>
+            <p class="body-txt" style="margin-top:1rem">
+              FPV is flown by hand through goggles, with no GPS holding the aircraft steady. Getting
+              to the point where you can take a drone through a doorway at speed without clipping a
+              frame takes years of practice, and it's the reason this footage looks different from a
+              drone hovering outside the window.
+            </p>
+          </div>
         </div>
         <div class="ed-list rv">
           {
@@ -188,7 +286,7 @@ const featured = categories.slice(0, 2);
       <div class="wrap">
         <div
           class="rv"
-          style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4rem 3rem;text-align:center"
+          style="background:var(--paper-2);border:1px solid var(--rule);border-radius:20px;padding:4rem 3rem;text-align:center"
         >
           <h2 class="h-lg" style="margin-bottom:1rem">Have a listing<br />worth <em>filming?</em></h2>
           <p class="body-txt" style="max-width:480px;margin:0 auto 2rem">

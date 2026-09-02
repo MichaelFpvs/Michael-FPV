@@ -114,13 +114,13 @@ const schema = [
         <div class="rv-r">
           <div class="card" style="margin-bottom:1.2rem">
             <div class="eyebrow" style="margin-bottom:1rem">Direct Contact</div>
-            <a href={site.phoneHref} style="display:block;font-family:var(--M);font-size:1.1rem;color:var(--white);margin-bottom:0.6rem">
+            <a href={site.phoneHref} style="display:block;font-family:var(--M);font-size:1.1rem;color:var(--ink);margin-bottom:0.6rem">
               {site.phone}
             </a>
-            <a href={`mailto:${site.email}`} style="display:block;font-family:var(--M);font-size:0.95rem;color:var(--grey2);margin-bottom:0.6rem">
+            <a href={`mailto:${site.email}`} style="display:block;font-family:var(--M);font-size:0.95rem;color:var(--muted);margin-bottom:0.6rem">
               {site.email}
             </a>
-            <a href={site.instagram} target="_blank" rel="noopener" style="font-family:var(--M);font-size:0.95rem;color:var(--gold);display:inline-flex;align-items:center;gap:0.4rem">
+            <a href={site.instagram} target="_blank" rel="noopener" style="font-family:var(--M);font-size:0.95rem;color:var(--accent);display:inline-flex;align-items:center;gap:0.4rem">
               {site.instagramHandle}
             </a>
           </div>
@@ -144,7 +144,7 @@ const schema = [
 
   function show(text, ok) {
     msg.textContent = text;
-    msg.style.color = ok ? 'var(--gold2)' : '#e53935';
+    msg.style.color = ok ? 'var(--accent-2)' : '#e53935';
     msg.style.display = 'block';
   }
 

@@ -2,6 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import { categories, streamUrl, url, filmCount, PLAYER_ALLOW } from '../../data/site';
 
+const totalFilms = categories.reduce((n, c) => n + filmCount(c), 0);
+
 const schema = [
   {
     '@type': 'CollectionPage',
@@ -25,55 +27,63 @@ const schema = [
       <div class="eyebrow">Our Work</div>
       <h1>The <em>Portfolio.</em></h1>
       <p>
-        A collection of real client work — weddings, real estate flythroughs, moto and automotive
-        tracking, and commercial production. No stock footage, no composites: every clip is from an
-        actual shoot.
+        Real client work — no stock footage, no composites. Every clip here was flown and cut by
+        Michael.
       </p>
+
+      <!-- Index: lets someone jump straight to the category they came for
+           instead of scrolling past three they don't need. -->
+      <nav class="pf-index" aria-label="Portfolio categories">
+        {
+          categories.map((cat) => (
+            <a href={`#${cat.slug}`} class="pf-index-link">
+              <span>{cat.title}</span>
+              <span class="pf-index-count">{filmCount(cat)}</span>
+            </a>
+          ))
+        }
+      </nav>
     </div>
   </div>
 
   <section class="sec">
     <div class="wrap">
-      <div class="rv-stagger" style="display:flex;flex-direction:column;gap:1.4rem">
+      <div class="pf-grid">
         {
-          categories.map((cat) => (
-            <a
-              href={url(`/portfolio/${cat.slug}/`)}
-              class="pf-cat"
-              aria-label={`View ${cat.title} portfolio`}
-            >
-              {cat.cover && (
-                <iframe
-                  src={streamUrl(cat.cover)}
-                  title={`${cat.title} preview`}
-                  allow={PLAYER_ALLOW}
-                  aria-hidden="true"
-                />
-              )}
-              <div class="pf-cat-scrim" />
-              <div class="pf-cat-over" />
-              <div class="pf-cat-info">
-                <div>
-                  <div class="pf-count">
-                    {filmCount(cat)} {filmCount(cat) === 1 ? 'film' : 'films'}
-                  </div>
-                  <div style="font-family:var(--D);font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:700;color:#fff">
-                    {cat.title}
-                  </div>
-                </div>
-                <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(245,243,238,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M5 12h14M13 6l6 6-6 6"
-                      stroke="#f5f3ee"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+          categories.map((cat, i) => (
+            <article class="pf-row" id={cat.slug} data-index={String(i + 1).padStart(2, '0')}>
+              <a
+                href={url(`/portfolio/${cat.slug}/`)}
+                class="pf-entry"
+                aria-label={`View ${cat.title} work`}
+              >
+                <div class="pf-cat" style={`view-transition-name: tile-${cat.slug}`}>
+                  {cat.cover && (
+                    <iframe
+                      src={streamUrl(cat.cover)}
+                      title={`${cat.title} preview`}
+                      allow={PLAYER_ALLOW}
+                      aria-hidden="true"
                     />
-                  </svg>
+                  )}
+                  {!cat.cover && (
+                    <div class="pf-empty-tag"><span>Coming soon</span></div>
+                  )}
                 </div>
-              </div>
-            </a>
+
+                <div class="pf-meta">
+                  <div class="pf-meta-head">
+                    <span class="pf-num">{String(i + 1).padStart(2, '0')}</span>
+                    <h2 class="pf-title">{cat.title}</h2>
+                  </div>
+                  {cat.blurb && <p class="pf-blurb">{cat.blurb}</p>}
+                  <span class="pf-count">
+                    {filmCount(cat)} {filmCount(cat) === 1 ? 'film' : 'films'}
+                    <span class="pf-arrow" aria-hidden="true">→</span>
+                  </span>
+                </div>
+              </a>
+            </article>
           ))
         }
       </div>
@@ -82,15 +92,16 @@ const schema = [
 
   <section class="sec" style="padding-top:0">
     <div class="wrap">
-      <div
-        class="rv"
-        style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4rem 3rem;text-align:center"
-      >
-        <h2 class="h-lg" style="margin-bottom:1rem">Like what you <em>see?</em></h2>
-        <p class="body-txt" style="max-width:480px;margin:0 auto 2rem">
-          Let's get your shoot on the calendar.
-        </p>
-        <a class="btn btn-gold" href={url('/book/')}>Book a Shoot</a>
+      <div class="pf-close rv">
+        <div>
+          <div class="eyebrow">Get In Touch</div>
+          <h2 class="h-lg">Like what you <em>see?</em></h2>
+          <p class="body-txt" style="margin-top:1.2rem">
+            {totalFilms} films and counting. Send your project details and we'll come back with a
+            price.
+          </p>
+        </div>
+        <a class="btn btn-solid" href={url('/book/')}>Book a Shoot</a>
       </div>
     </div>
   </section>

@@ -25,15 +25,7 @@ const schema = [
     description: cat.metaDescription,
     provider: { '@id': `${Astro.site?.href}#business` },
     areaServed: { '@type': 'City', name: 'Charlotte' },
-  },
-  {
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
-      { '@type': 'ListItem', position: 2, name: 'Portfolio', item: new URL('/portfolio/', Astro.site).href },
-      { '@type': 'ListItem', position: 3, name: cat.title },
-    ],
-  },
+  }
 ];
 ---
 
@@ -46,7 +38,7 @@ const schema = [
     <div class="wrap">
       <a
         href={url('/portfolio/')}
-        style="display:inline-flex;align-items:center;gap:0.5rem;color:var(--grey2);font-family:var(--M);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.4rem;text-decoration:none;min-height:44px"
+        style="display:inline-flex;align-items:center;gap:0.5rem;color:var(--muted);font-family:var(--M);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.4rem;text-decoration:none;min-height:44px"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
@@ -90,20 +82,22 @@ const schema = [
           >
             {t.videos.length === 0 ? (
               <p
-                style="grid-column:1/-1;text-align:center;padding:4rem 1rem;font-family:var(--M);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey2)"
+                style="grid-column:1/-1;text-align:center;padding:4rem 1rem;font-family:var(--M);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)"
               >
                 Videos for this category are coming soon.
               </p>
             ) : (
-              t.videos.map((v) => (
+              t.videos.map((v, vi) => (
                 <div
                   class="cat-vid"
+                  style={i === 0 && vi === 0 ? `view-transition-name: tile-${cat.slug}` : undefined}
                   data-stream={v.stream}
                   data-silent={v.silent ? 'true' : undefined}
                   role="button"
                   tabindex="0"
                   aria-label={`Play ${v.label}`}
                 >
+                  <span class="play-mark" aria-hidden="true" />
                   <iframe
                     src={streamUrl(v.stream)}
                     title={v.label}
@@ -123,7 +117,7 @@ const schema = [
     <div class="wrap">
       <div
         class="rv"
-        style="background:var(--b1);border:1px solid var(--line);border-radius:20px;padding:4rem 3rem;text-align:center"
+        style="background:var(--paper-2);border:1px solid var(--rule);border-radius:20px;padding:4rem 3rem;text-align:center"
       >
         <h2 class="h-lg" style="margin-bottom:1rem">Like what you <em>see?</em></h2>
         <p class="body-txt" style="max-width:480px;margin:0 auto 2rem">
@@ -141,17 +135,17 @@ const schema = [
     font-size: 0.72rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--grey2);
-    background: var(--b1);
-    border: 1px solid var(--line2);
+    color: var(--muted);
+    background: var(--paper-2);
+    border: 1px solid var(--rule-2);
     padding: 0 1.2rem;
     min-height: 44px;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .cat-tab:hover { color: var(--white); border-color: var(--grey2); }
-  .cat-tab.on { background: var(--gold); color: #16110a; border-color: var(--gold); }
+  .cat-tab:hover { color: var(--ink); border-color: var(--muted); }
+  .cat-tab.on { background: var(--accent); color: #160f08; border-color: var(--accent); }
 
 </style>
 
