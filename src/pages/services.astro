@@ -67,28 +67,22 @@ const schema = [
             <h2 class="h-lg">Services we <em>deliver.</em></h2>
           </div>
 
-          <div class="rv">
+          <div class="svc-grid rv-stagger">
             {
-              services.map((s) => (
-                <div class="svc-row" role="button" tabindex="0" aria-expanded="false">
-                  <div class="svc-top">
-                    <div class="svc-tag">{s.tag}</div>
-                    <div class="svc-body-h">
-                      <h3>{s.title}</h3>
-                      <p class="svc-preview">{s.preview}</p>
-                    </div>
-                    <div class="svc-caret">+</div>
+              services.map((s, i) => (
+                <div class="svc-box">
+                  <div class="svc-box-top">
+                    <span class="svc-box-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="svc-box-tag">{s.tag}</span>
                   </div>
-                  <div class="svc-body">
-                    <div class="svc-panel-in">
-                      <p>{s.body}</p>
-                      <ul>
-                        {s.points.map((pt) => (
-                          <li>{pt}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                  <h3>{s.title}</h3>
+                  <p class="svc-box-lead">{s.preview}</p>
+                  <ul class="svc-box-list">
+                    {s.points.slice(0, 4).map((pt) => <li>{pt}</li>)}
+                  </ul>
+                  <a class="svc-box-cta" href={url('/book/')}>
+                    Get a quote <span aria-hidden="true">→</span>
+                  </a>
                 </div>
               ))
             }

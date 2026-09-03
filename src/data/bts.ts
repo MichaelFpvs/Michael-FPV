@@ -1,7 +1,7 @@
 // Content lifted verbatim from the original site — do not reword.
 export const btsIntro = [
   "Every project starts before we ever arrive on site. We review the location, check airspace, plan the flight path, and figure out which rig makes sense for the job. By the time we show up, we already know how we're going to shoot it.",
-  'On shoot day we typically run two passes — one to understand the space, one to capture it. Interior flythroughs are flown in first-person through goggles, usually 2–3 practice runs before we lock the final take. Exterior aerials and photography happen alongside, timed around the light. Most shoots are wrapped in under two hours.',
+  'On shoot day we typically run two passes — one to understand the space, one to capture it. Interior flythroughs are flown in first-person through goggles, usually 2–3 practice runs before we lock the final take. Exterior aerials happen alongside, timed around the light. Most shoots are wrapped in under two hours.',
   'After the shoot, footage goes straight into edit — color graded, cut to scope, and delivered the same day for most real estate projects. The goal every time is footage that actually gets used, not footage that sits in a folder.'
 ];
 
@@ -18,8 +18,8 @@ export const btsGear = [
     eyebrow: 'DJI Drone',
     title: 'Built for altitude.',
     paras: [
-      "Our standard DJI drone handles everything outdoors — wide aerial shots, sweeping orbits around buildings, high-resolution HDR photography, and smooth cinematic altitude footage. GPS-stabilized and whisper-quiet, it's the right tool for weddings, events, and any exterior property work where you need precision and silence.",
-      'Every real estate package and wedding shoot that includes aerial photography runs on this rig. It captures angles no ground camera ever could.'
+      "Our standard DJI drone handles everything outdoors — wide aerial shots, sweeping orbits around buildings, and smooth cinematic altitude footage. GPS-stabilized and whisper-quiet, it's the right tool for weddings, events, and any exterior property work where you need precision and silence.",
+      'Every real estate package and wedding shoot that includes exterior aerials runs on this rig. It captures angles no ground camera ever could.'
     ],
   }
 ];

@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { categories, streamUrl, type Category, url, PLAYER_ALLOW } from '../../data/site';
+import { categories, streamUrl, type Category, url, portraitCovers, PLAYER_ALLOW } from '../../data/site';
 
 // One real, indexable page per category — this is the big SEO win over the
 // old single-URL build.
@@ -89,7 +89,7 @@ const schema = [
             ) : (
               t.videos.map((v, vi) => (
                 <div
-                  class="cat-vid"
+                  class={`cat-vid${portraitCovers.includes(v.stream) ? ' is-portrait' : ''}`}
                   style={i === 0 && vi === 0 ? `view-transition-name: tile-${cat.slug}` : undefined}
                   data-stream={v.stream}
                   data-silent={v.silent ? 'true' : undefined}

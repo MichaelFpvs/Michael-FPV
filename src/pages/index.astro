@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site, streamUrl, heroStreams, aboutStream, categories, faqs, aboutPoints, services, url, filmCount, PLAYER_ALLOW } from '../data/site';
+import { site, streamUrl, heroStreams, portraitCovers, aboutStream, categories, faqs, aboutPoints, services, url, filmCount, PLAYER_ALLOW } from '../data/site';
 
 // Just two on the home page — a taste, not the whole portfolio.
 const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'moto-auto');
@@ -24,10 +24,9 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
     <div class="hero-content" id="hero-content">
       <h1 class="h-xl">One flight.<br /><em>No cuts.</em></h1>
       <p class="hero-sub">
-        At Michael FPV, we provide a full range of professional drone and FPV videography services
-        for businesses, real estate, events, and commercial productions. Using industry-leading
-        equipment and the latest technology, we capture stunning visuals that bring every project to
-        life.
+        FPV drone cinematography for real estate, weddings, and brands. The whole property in one
+        continuous take — through the door, down the hall, out over the roof. Charlotte based,
+        flying nationwide.
       </p>
       <div class="hero-btns">
         <a class="btn btn-gold" href={url('/book/')}>Book a Shoot</a>
@@ -35,7 +34,7 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
       </div>
       <div class="hero-stats">
         <div>
-          <div class="hstat-n"><span class="badge-107">Part 107</span></div>
+          <div class="hstat-n"><span class="p107">Part 107</span></div>
           <div class="hstat-l">FAA Licensed</div>
         </div>
         <div>
@@ -60,7 +59,7 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
               <span class="strip-item">Charlotte FPV <b>&#9671;</b></span>
               <span class="strip-item">24-Hour Delivery <b>&#9671;</b></span>
               <span class="strip-item">
-                FAA <span style="color:var(--signal)">Part 107</span> Certified <b>&#9671;</b>
+                FAA <span class="p107">Part 107</span> Certified <b>&#9671;</b>
               </span>
               <span class="strip-item">Real Estate &middot; Weddings &middot; Events <b>&#9671;</b></span>
             </>
@@ -98,6 +97,41 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
       </div>
     </section>
 
+    <!-- WHAT WE SHOOT -->
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-lead rv">
+          <div class="eyebrow">What We Offer</div>
+          <h2 class="h-lg">What we <em>offer.</em></h2>
+          <p>
+            Based in Charlotte with no travel fee locally — and available for shoots across all 50
+            states, with travel quoted upfront.
+          </p>
+        </div>
+
+        <div class="svc-cards rv-stagger">
+          {
+            services.map((s) => (
+              <a href={url('/services/')} class="svc-card">
+                <h3 class="svc-card-title">{s.title.replace(' — ', ' ')}</h3>
+                <p class="svc-card-text">{s.preview}</p>
+                <span class="svc-card-more">
+                  Details <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="svc-foot rv">
+          <p class="body-sm">
+            Every booking includes 4K delivery, colour grading, and footage you own outright.
+          </p>
+          <a class="btn btn-line" href={url('/services/')}>All Services &amp; Pricing</a>
+        </div>
+      </div>
+    </section>
+
     <!-- FEATURED WORK -->
     <section class="sec" style="padding-top:0">
       <div class="wrap">
@@ -119,7 +153,7 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
               class="reel-item rv"
               aria-label={`View ${cat.title} work`}
             >
-              <div class="reel-media">
+              <div class={`reel-media${portraitCovers.includes(cat.cover!) ? ' is-portrait' : ''}`}>
                 <iframe
                   src={streamUrl(cat.cover!)}
                   title={`${cat.title} preview`}
@@ -141,37 +175,6 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
             </a>
           ))
           }
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT WE SHOOT -->
-    <section class="sec" style="padding-top:0">
-      <div class="wrap">
-        <div class="sec-lead rv">
-          <div class="eyebrow">What We Shoot</div>
-          <h2 class="h-lg">Every job, <em>one pilot.</em></h2>
-        </div>
-
-        <div class="svc-cards rv-stagger">
-          {
-            [services[0], services[3], services[4], services[5]].map((s) => (
-              <a href={url('/services/')} class="svc-card">
-                <h3 class="svc-card-title">{s.title.replace(' — ', ' ')}</h3>
-                <p class="svc-card-text">{s.preview}</p>
-                <span class="svc-card-more">
-                  Details <span aria-hidden="true">→</span>
-                </span>
-              </a>
-            ))
-          }
-        </div>
-
-        <div class="svc-foot rv">
-          <p class="body-sm">
-            Every booking includes 4K delivery, colour grading, and footage you own outright.
-          </p>
-          <a class="btn btn-line" href={url('/services/')}>All Services &amp; Pricing</a>
         </div>
       </div>
     </section>
@@ -225,12 +228,12 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
           <div class="eyebrow">Questions</div>
           <h2 class="h-lg">What people <em>ask.</em></h2>
         </div>
-        <div class="ed-list rv">
+        <div class="faq-grid rv-stagger">
           {
             faqs.map((f) => (
-              <div class="ed-item">
-                <h3 set:html={f.q.replace('Part 107', '<span style="color:var(--signal)">Part 107</span>')} />
-                <p set:html={f.a.replace('Part 107', '<span style="color:var(--signal)">Part 107</span>')} />
+              <div class="faq-box">
+                <h3 set:html={f.q.replace('Part 107', '<span class="p107">Part 107</span>')} />
+                <p set:html={f.a.replace('Part 107', '<span class="p107">Part 107</span>')} />
               </div>
             ))
           }
@@ -252,6 +255,11 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
               decoding="async"
             />
           </div>
+          <p class="pilot-reach">
+            <span class="p107">Part 107</span>
+            <span>Charlotte, NC</span>
+            <span>Available in all 50 states</span>
+          </p>
           <div class="pilot-text">
             <div class="eyebrow">The Pilot</div>
             <h2 class="h-lg">About <em>Michael.</em></h2>
@@ -268,10 +276,10 @@ const featured = categories.filter((c) => c.slug === 'weddings' || c.slug === 'm
             </p>
           </div>
         </div>
-        <div class="ed-list rv">
+        <div class="about-grid rv-stagger">
           {
             aboutPoints.map((p) => (
-              <div class="ed-item">
+              <div class="about-box">
                 <h3>{p.title}</h3>
                 <p>{p.body}</p>
               </div>

@@ -21,10 +21,10 @@ export const site = {
   owner: 'Michael',
   tagline: 'Charlotte Drone Cinematography',
   description:
-    'FPV drone flythroughs, aerial video, and HDR photography for real estate, weddings, and brands. FAA Part 107 certified. Charlotte NC, available nationwide.',
+    'FPV drone flythroughs, aerial video, and FPV flythroughs for real estate, weddings, and brands. FAA Part 107 certified. Charlotte NC, available nationwide.',
   phone: '(980) 397-9127',
   phoneHref: 'tel:+19803979127',
-  email: 'michaelfpv06@gmail.com',
+  email: 'michaelsfpv@gmail.com',
   instagram: 'https://www.instagram.com/michael__fpv/',
   instagramHandle: '@michael__fpv',
   city: 'Charlotte',
@@ -103,6 +103,7 @@ export const categories: Category[] = [
         label: 'Wedding BTS',
         videos: [
           { stream: '580409878c4579b2c7d65eed3b8fc889', label: 'Behind the Scenes' },
+          { stream: 'b6c739e49c6f626c4d7e42243fc5362b', label: 'Behind the Scenes' },
         ],
       },
     ],
@@ -129,7 +130,18 @@ export const categories: Category[] = [
     cover: '7577e83ae3176e09db3e9754da65144a',
     metaDescription:
       'Real estate drone videography in Charlotte NC. One continuous FPV flythrough of the whole property, delivered in 4K within 24 hours. MLS-ready exports included.',
-    videos: [{ stream: '7577e83ae3176e09db3e9754da65144a', label: 'Fly Thru' }],
+    tabs: [
+      {
+        key: 'main',
+        label: 'Real Estate',
+        videos: [{ stream: '7577e83ae3176e09db3e9754da65144a', label: 'Fly Thru' }],
+      },
+      {
+        key: 'bts',
+        label: 'Real Estate BTS',
+        videos: [{ stream: 'fbf2eaaceb0ec89bc91197a5e6183605', label: 'Behind the Scenes' }],
+      },
+    ],
   },
   {
     slug: 'production',
@@ -139,13 +151,20 @@ export const categories: Category[] = [
     cover: 'c9469edb28bf6f463bba232523496082',
     metaDescription:
       'Commercial drone video production for venues, hotels, restaurants, and brands. FPV interior flythroughs and exterior aerials. Charlotte NC.',
-    videos: [{ stream: 'c9469edb28bf6f463bba232523496082', label: 'Production' }],
+    videos: [
+      { stream: 'c9469edb28bf6f463bba232523496082', label: 'Production' },
+      { stream: 'fbf2eaaceb0ec89bc91197a5e6183605', label: 'Behind the Scenes' },
+    ],
   },
 ];
 
 
 /** How many films a category actually holds — used as the tile label.
  *  Replaces decorative 01/02/03 numbering, which encoded nothing. */
+/** Stream IDs whose source footage is portrait, not 16:9. These need
+ *  the iframe scaled on height or they letterbox inside a wide frame. */
+export const portraitCovers = ['f95bab7559567c9703e0a6ffab7be5cf'];
+
 export const filmCount = (cat: Category): number =>
   cat.tabs
     ? cat.tabs.reduce((n, t) => n + t.videos.length, 0)
@@ -154,7 +173,7 @@ export const filmCount = (cat: Category): number =>
 export const services = [
   {
     tag: '01',
-    title: 'Real Estate — Drone Tour',
+    title: 'Real Estate',
     preview: 'One continuous FPV flythrough. In the door, through every room, done.',
     body: 'A single immersive FPV flythrough shot in one take. The footage that stops buyers mid-scroll.',
     points: [
@@ -166,32 +185,6 @@ export const services = [
   },
   {
     tag: '02',
-    title: 'Real Estate — Standard Kit',
-    preview: 'FPV tour + HDR photos + aerials + floor plan in one booking.',
-    body: 'The most-booked package. Everything an agent needs to launch a listing, delivered in 24 hours.',
-    points: [
-      'FPV flythrough',
-      'HDR interior photography (25+ photos)',
-      'Exterior + aerial photography',
-      '2D floor plan',
-      'All files in 24 hours',
-    ],
-  },
-  {
-    tag: '03',
-    title: 'Real Estate — Elite',
-    preview: 'Standard Kit plus a cinematic highlight reel and creative direction.',
-    body: 'For premium listings. Full Standard Kit plus a polished cinematic highlight video and on-site creative direction.',
-    points: [
-      'Everything in Standard Kit',
-      'Cinematic highlight video (60–90s)',
-      'Extended aerial footage',
-      'On-site creative direction',
-      'Social media cut included',
-    ],
-  },
-  {
-    tag: '04',
     title: 'Weddings',
     preview: 'Whisper-quiet aerials that work alongside your main video team.',
     body: 'We stay out of the way, shoot from above, and hand you polished aerial coverage that makes your highlight reel worth watching.',
@@ -204,7 +197,7 @@ export const services = [
     ],
   },
   {
-    tag: '05',
+    tag: '03',
     title: 'Commercial & Venues',
     preview: 'Hotels, restaurants, offices, event spaces — inside and out.',
     body: 'FPV interior flythroughs plus exterior aerials for venue tours, hotel promos, restaurant launches, and office walkthroughs.',
@@ -212,12 +205,11 @@ export const services = [
       'FPV interior flythrough',
       'Exterior aerial footage',
       'Edited promo video (60–120s)',
-      'Photography add-on available',
       'Custom scope available',
     ],
   },
   {
-    tag: '06',
+    tag: '04',
     title: 'Production FPV',
     preview: 'Cinema-grade FPV for ads, music videos, and branded productions.',
     body: 'Full production FPV for commercial shoots, music videos, film sets, and campaigns.',
@@ -227,6 +219,30 @@ export const services = [
       'Works alongside your production crew',
       'Pre-production scouting included',
       'Custom quote — contact us to scope',
+    ],
+  },
+  {
+    tag: '05',
+    title: 'Aerial Only',
+    preview: 'Standard DJI drone. Exterior aerials and orbits, no interior work.',
+    body: 'When a project only needs the outside covered — wide establishing shots, orbits around the building, and altitude footage from the full-size drone.',
+    points: [
+      'Exterior aerials and orbits',
+      '4K delivery, color graded',
+      'Ideal for land, exteriors, and venues',
+      'Delivered within 24 hours',
+    ],
+  },
+  {
+    tag: '06',
+    title: 'Custom Project',
+    preview: 'Something not on this list? Tell us the shoot and we will scope it.',
+    body: 'Not every project fits a package. Send the details and we will put together a scope and a price built around what the shoot actually needs.',
+    points: [
+      'Scoped around your project',
+      'Multi-location and multi-day available',
+      'Both aircraft as needed',
+      'Quoted upfront, no surprises',
     ],
   },
 ];

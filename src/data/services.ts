@@ -57,7 +57,7 @@ export const bookingSteps = [
     n: '04',
     title: 'Shoot day',
     body:
-      'Exterior aerials and photography come first while the light is right, then interior FPV passes. Most shoots wrap in under two hours.',
+      'Exterior aerials come first while the light is right, then interior FPV passes. Most shoots wrap in under two hours.',
   },
   {
     n: '05',
@@ -104,7 +104,7 @@ export const servicesFaq = [
   },
   {
     q: 'Do you shoot indoors as well as aerials?',
-    a: 'Yes. A ducted cinewhoop handles interiors and tight spaces, and a standard DJI drone covers exterior aerials and HDR photography.',
+    a: 'Yes. A ducted cinewhoop handles interiors and tight spaces, and a standard DJI drone covers exterior aerials.',
   },
   {
     q: 'Do I need to be there on shoot day?',

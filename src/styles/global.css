@@ -1352,7 +1352,9 @@ select.finp { background-position: right 1.2rem center; }
 .pilot {
   display: grid;
   grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
-  gap: 4rem;
+  grid-template-rows: auto auto;
+  column-gap: 4rem;
+  row-gap: 0;
   align-items: center;
   margin-bottom: 4.5rem;
 }
@@ -1395,7 +1397,7 @@ select.finp { background-position: right 1.2rem center; }
 }
 
 @media (max-width: 860px) {
-  .pilot { grid-template-columns: 1fr; gap: 2.2rem; margin-bottom: 3rem; }
+  .pilot { grid-template-columns: 1fr; grid-template-rows: auto; gap: 1.6rem; margin-bottom: 3rem; }
   .pilot-photo { max-width: 340px; aspect-ratio: 4 / 5; }
 }
 
@@ -1888,7 +1890,7 @@ select.finp { background-position: right 1.2rem center; }
    reason someone is on a portfolio site.
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 760px) {
-  .reel-media { aspect-ratio: 4 / 5; }
+  .reel-media { aspect-ratio: 21 / 9; }
   .pf-cat { aspect-ratio: 4 / 5; }
   .cat-vid { aspect-ratio: 4 / 5; }
   .about-vid { aspect-ratio: 4 / 5; }
@@ -1986,6 +1988,13 @@ select.finp { background-position: right 1.2rem center; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.4rem;
 }
+/* 21:9 as on the live site. The wide crop trims the black edges that
+   are baked into the source file, which CSS scaling can't remove. */
+.reel-media { aspect-ratio: 21 / 9; }
+.reel-media iframe {
+  width: 100%; height: 100%;
+  min-width: 177.78%; min-height: 177.78%;
+}
 .reel-item {
   border-top: none;
   border-radius: var(--r-lg);
@@ -1994,12 +2003,12 @@ select.finp { background-position: right 1.2rem center; }
   transition: border-color 0.4s var(--ease), transform 0.45s var(--liquid);
 }
 .reel-item:hover { border-color: var(--rule-2); transform: translateY(-3px); }
-.reel-media { aspect-ratio: 16 / 9; }
+.reel-media { aspect-ratio: 21 / 9; }
 .reel-label { padding: 1.2rem 1.4rem; }
 
 @media (max-width: 700px) {
   .reel { grid-template-columns: 1fr; gap: 1rem; }
-  .reel-media { aspect-ratio: 16 / 9; }
+  .reel-media { aspect-ratio: 21 / 9; }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -2037,4 +2046,337 @@ select.finp { background-position: right 1.2rem center; }
   .inc-grid { grid-template-columns: 1fr; gap: 0.9rem; }
   .inc-card { padding: 1.5rem; }
   .inc-card h3 { font-size: 1.25rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SERVICE BOXES
+   Each service is its own card with its own quote button, so someone
+   who only wants real estate can act without reading the other five.
+   ══════════════════════════════════════════════════════════════════ */
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+@media (max-width: 1000px) { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px)  { .svc-grid { grid-template-columns: 1fr; } }
+
+.svc-box {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.8rem 1.6rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+  background: rgba(240, 235, 225, 0.02);
+  position: relative;
+  overflow: hidden;
+  transition: border-color .4s var(--ease), transform .45s var(--liquid), background .4s var(--ease);
+}
+/* A colour bar that wipes across the top on hover. */
+.svc-box::before {
+  content: '';
+  position: absolute; inset: 0 0 auto 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--signal));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .5s var(--ease);
+}
+.svc-box:hover::before { transform: scaleX(1); }
+.svc-box:hover {
+  border-color: var(--rule-2);
+  background: rgba(240, 235, 225, 0.045);
+  transform: translateY(-4px);
+}
+.svc-box-top { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.1rem; }
+.svc-box-num { font-family: var(--M); font-size: .66rem; letter-spacing: .14em; color: var(--faint); }
+.svc-box-tag {
+  font-family: var(--M); font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); background: rgba(209,84,58,.12);
+  border: 1px solid rgba(209,84,58,.25);
+  padding: .2rem .6rem; border-radius: var(--r-pill);
+}
+.svc-box h3 {
+  font-family: var(--D); font-weight: 400; font-size: 1.5rem; line-height: 1.12;
+  color: var(--ink); margin-bottom: .6rem; transition: color .35s var(--ease);
+}
+.svc-box:hover h3 { color: var(--accent); }
+.svc-box-lead { font-size: .92rem; line-height: 1.65; color: var(--muted); margin-bottom: 1.2rem; }
+.svc-box-list { list-style: none; margin-bottom: 1.6rem; }
+.svc-box-list li {
+  position: relative; padding-left: 1.1rem; padding-block: .25rem;
+  font-size: .87rem; line-height: 1.6; color: var(--body);
+}
+.svc-box-list li::before {
+  content: ''; position: absolute; left: 0; top: .78em;
+  width: 6px; height: 1px; background: var(--accent);
+}
+.svc-box-cta {
+  margin-top: auto;
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--M); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); border-top: 1px solid var(--rule);
+  padding-top: 1.1rem; min-height: 44px;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+.svc-box-cta span { transition: transform .4s var(--liquid); }
+.svc-box:hover .svc-box-cta { color: var(--accent); border-color: var(--rule-2); }
+.svc-box:hover .svc-box-cta span { transform: translateX(5px); }
+
+/* ══════════════════════════════════════════════════════════════════
+   PART 107 — highlighted wherever it appears
+   ══════════════════════════════════════════════════════════════════ */
+.p107 {
+  display: inline-flex; align-items: center; gap: .38rem;
+  font-family: var(--M); font-size: .82em; font-weight: 500;
+  letter-spacing: .04em; color: var(--signal);
+  background: rgba(255,77,61,.1);
+  border: 1px solid rgba(255,77,61,.3);
+  padding: .1em .55em; border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.p107::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--signal); flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   VERTICAL VIDEO — no letterboxing
+   A 16:9 stream in a 4:5 frame needs ~222% width to cover. The old
+   177.78% only covers a square, which left black bars down the sides.
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  .pf-cat > iframe, .cat-vid > iframe,
+  .reel-media iframe, .about-vid iframe, .bts-vid iframe {
+    min-width: 240%;
+    min-height: 240%;
+  }
+  .hero-vid-wrap iframe { min-width: 240vh; }
+}
+
+/* Home FAQ and About as boxes rather than more list rows — the page
+   was four stacked lists in a row, which read as a document. */
+.faq-grid, .about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+.about-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .faq-grid, .about-grid { grid-template-columns: 1fr; } }
+
+.faq-box, .about-box {
+  padding: 1.7rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+  background: rgba(240, 235, 225, 0.02);
+  transition: border-color .4s var(--ease), transform .45s var(--liquid), background .4s var(--ease);
+}
+.faq-box:hover, .about-box:hover {
+  border-color: var(--rule-2);
+  background: rgba(240, 235, 225, 0.045);
+  transform: translateY(-3px);
+}
+.faq-box h3, .about-box h3 {
+  font-family: var(--D); font-weight: 400; font-size: 1.22rem; line-height: 1.2;
+  color: var(--ink); margin-bottom: .65rem;
+}
+.about-box h3 { font-size: 1.35rem; }
+.faq-box p, .about-box p { font-size: .9rem; line-height: 1.7; color: var(--muted); }
+
+/* ══════════════════════════════════════════════════════════════════
+   TRANSITION POLISH
+   Small, consistent motion across the interactive parts, so hovering
+   anything gives the same quality of response.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Section headings draw their accent rule as they arrive. */
+.sec-lead.in .eyebrow::after,
+.eyebrow.in::after { animation: ruleDraw .8s var(--ease) both; }
+@keyframes ruleDraw { from { transform: scaleX(0); transform-origin: left; } }
+
+/* Editorial rows warm and shift a touch on hover. */
+.ed-item { transition: padding-left .45s var(--liquid); }
+.ed-item:hover { padding-left: .6rem; }
+
+/* Table rows on services pick up the same behaviour. */
+.svc-table-row {
+  transition: padding-left .45s var(--liquid), border-color .35s var(--ease);
+}
+.svc-table-row:hover { padding-left: .6rem; border-color: var(--rule-2); }
+.svc-table-row:hover .svc-table-type { color: var(--accent); }
+.svc-table-type { transition: color .3s var(--ease); }
+
+/* Numbered process rows. */
+.num-row { transition: padding-left .45s var(--liquid), border-color .35s var(--ease); }
+.num-row:hover { padding-left: .6rem; border-color: var(--rule-2); }
+.num-row:hover .num-tag { color: var(--accent); }
+.num-tag { transition: color .3s var(--ease); }
+
+/* Footer links slide a little rather than only changing colour. */
+.foot-links a { transition: color .3s var(--ease), padding-left .35s var(--liquid); }
+.foot-links a:hover { padding-left: .35rem; }
+
+/* Form fields lift their label as they gain focus. */
+.flabel { transition: color .3s var(--ease); }
+.finp:focus + .flabel, label:focus-within .flabel { color: var(--accent); }
+
+/* Every image that can be hovered shares one easing. */
+.pilot-photo img, .gear-shot img { transition: transform 1.1s var(--ease), filter .8s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-item:hover, .svc-table-row:hover, .num-row:hover, .foot-links a:hover { padding-left: 0; }
+  .sec-lead.in .eyebrow::after, .eyebrow.in::after { animation: none; }
+}
+
+/* Availability line under the pilot photo. */
+.pilot-reach {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem;
+  margin-top: 1rem;
+  font-family: var(--M); font-size: .66rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint);
+}
+.pilot-reach > span:not(.p107) { position: relative; padding-left: .9rem; }
+.pilot-reach > span:not(.p107)::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  width: 4px; height: 4px; margin-top: -2px; border-radius: 50%;
+  background: var(--rule-2);
+}
+@media (max-width: 860px) {
+  .pilot-reach { grid-column: 1; grid-row: auto; margin-top: .8rem; }
+  .pilot-text { grid-column: 1; grid-row: auto; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOTION — richer, consistent
+   ══════════════════════════════════════════════════════════════════ */
+/* Cards rise and lift a shadow rather than only shifting. */
+.book-card, .svc-box, .faq-box, .about-box, .inc-card, .reel-item {
+  will-change: transform;
+}
+.book-card:hover, .svc-box:hover, .faq-box:hover,
+.about-box:hover, .inc-card:hover, .reel-item:hover {
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,.8);
+}
+
+/* Headings wipe in from behind a mask as they arrive. */
+.sec-lead h2, .page-banner h1 { overflow: hidden; }
+.rv.in .h-lg, .rv.in .h-xl { animation: maskUp .9s var(--ease) both; }
+@keyframes maskUp { from { opacity: 0; transform: translateY(28px); } }
+
+/* Eyebrow dot pulses once when its section arrives. */
+.rv.in .eyebrow::before { animation: dotPop .6s var(--liquid) both; }
+@keyframes dotPop { from { transform: scale(0); } }
+
+/* Video frames scale up very slightly as they enter view. */
+.reel-item, .pf-cat, .cat-vid { transition: transform .6s var(--liquid), border-color .4s var(--ease), box-shadow .5s var(--ease); }
+
+/* Buttons get a subtle press. */
+.btn:active, .nav-cta:active, .svc-box-cta:active { transform: scale(.97); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv.in .h-lg, .rv.in .h-xl, .rv.in .eyebrow::before { animation: none; }
+  .book-card:hover, .svc-box:hover, .faq-box:hover,
+  .about-box:hover, .inc-card:hover, .reel-item:hover { box-shadow: none; }
+}
+
+.pilot-text { grid-column: 2; grid-row: 1; align-self: center; }
+
+/* Phone: stack the pilot section. This must come after the explicit
+   grid placement above, or that placement keeps forcing two columns. */
+@media (max-width: 860px) {
+  .pilot {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 1.6rem;
+  }
+  .pilot-photo { grid-column: 1; grid-row: auto; max-width: 340px; }
+  .pilot-reach { grid-column: 1; grid-row: auto; margin-top: -0.8rem; }
+  .pilot-text  { grid-column: 1; grid-row: auto; align-self: start; }
+}
+
+/* A single behind-the-scenes clip, mid-page. */
+.bts-clip { max-width: 900px; margin: 0 auto; }
+.bts-clip-frame {
+  position: relative; width: 100%; aspect-ratio: 16 / 9;
+  border-radius: var(--r-lg); overflow: hidden;
+  background: var(--paper-2); border: 1px solid var(--rule);
+}
+.bts-clip-frame iframe {
+  position: absolute; top: 50%; left: 50%;
+  width: 100%; height: 100%; min-width: 177.78%; min-height: 177.78%;
+  border: 0; pointer-events: none; transform: translate(-50%, -50%);
+}
+.bts-clip-cap {
+  margin-top: 1rem; text-align: center;
+  font-family: var(--M); font-size: .7rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint);
+}
+@media (max-width: 760px) {
+  .bts-clip-frame { aspect-ratio: 4 / 5; }
+  .bts-clip-frame iframe { min-width: 240%; min-height: 240%; }
+}
+
+
+
+
+/* ══════════════════════════════════════════════════════════════════
+   VIDEO COVER — matched to each frame's shape
+   Cloudflare letterboxes inside its own iframe when the iframe's
+   aspect doesn't match the 16:9 video. So the iframe is sized to be
+   16:9 relative to its frame — no more, no less. Overscanning past
+   that just crops the footage for no reason.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* 16:9 frames — the iframe already matches, no overscan at all. */
+.pf-cat > iframe,
+.cat-vid > iframe,
+.bts-clip-frame iframe {
+  width: 100%; height: 100%;
+  min-width: 100%; min-height: 100%;
+}
+
+/* Home reel carries vertical source footage. A 9:16 clip in a 16:9
+   frame leaves bars down the sides unless the iframe is scaled on
+   height until it is 16:9 relative to the frame. */
+.reel-media iframe {
+  width: 100%; height: 100%;
+  min-width: 100%; min-height: 100%;
+}
+
+/* 4:3 frame (about clip) needs 133%. */
+.about-vid iframe { width: 133%; height: 100%; min-width: 133%; min-height: 100%; }
+
+/* 9:16 frames (BTS side-by-side) are tall — 316% wide to stay 16:9. */
+/* Vertical source in a vertical frame — exact fit, nothing cropped. */
+.bts-vid iframe { width: 100%; height: 100%; min-width: 100%; min-height: 100%; }
+
+/* Phone: these frames become 4:5, which needs 222%. */
+@media (max-width: 760px) {
+  .pf-cat > iframe,
+  .cat-vid > iframe,
+  .reel-media iframe,
+  .bts-clip-frame iframe,
+  .about-vid iframe {
+    width: 222%; height: 100%;
+    min-width: 222%; min-height: 100%;
+  }
+}
+
+/* Hero fills the viewport. */
+.hero-vid-wrap iframe {
+  width: 100vw; height: 56.25vw;
+  min-width: 177.78vh; min-height: 100%;
+}
+
+
+
+
+
+/* Reel: 21:9 everywhere, matching the live site. Declared last so the
+   earlier 16:9 and 4:5 rules can't override it. */
+.reel-media { aspect-ratio: 21 / 9 !important; }
+.reel-media iframe {
+  width: 100% !important; height: 100% !important;
+  min-width: 177.78% !important; min-height: 177.78% !important;
 }

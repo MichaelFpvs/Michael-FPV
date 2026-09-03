@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { categories, streamUrl, url, filmCount, PLAYER_ALLOW } from '../../data/site';
+import { categories, streamUrl, url, filmCount, portraitCovers, PLAYER_ALLOW } from '../../data/site';
 
 const totalFilms = categories.reduce((n, c) => n + filmCount(c), 0);
 
@@ -57,7 +57,7 @@ const schema = [
                 class="pf-entry"
                 aria-label={`View ${cat.title} work`}
               >
-                <div class="pf-cat" style={`view-transition-name: tile-${cat.slug}`}>
+                <div class={`pf-cat${cat.cover && portraitCovers.includes(cat.cover) ? ' is-portrait' : ''}`} style={`view-transition-name: tile-${cat.slug}`}>
                   {cat.cover && (
                     <iframe
                       src={streamUrl(cat.cover)}
