@@ -1,4 +1,4 @@
 MICHAEL FPV - LOCAL PREVIEW
 Unzip, then double-click index.html.
-Videos, the form, and page transitions only work on the live site.
+Videos and the form only work on the live site.
 Upload michael-fpv-CLOUDFLARE.zip to GitHub, not this folder.
