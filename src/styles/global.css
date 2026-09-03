@@ -2380,3 +2380,12 @@ select.finp { background-position: right 1.2rem center; }
   width: 100% !important; height: 100% !important;
   min-width: 177.78% !important; min-height: 177.78% !important;
 }
+
+/* Phone: contact details stack instead of running together in a row. */
+@media (max-width: 700px) {
+  .foot-links { display: flex; flex-direction: column; align-items: flex-start; }
+  .foot-links a { width: 100%; }
+  .foot-top { gap: 2rem; }
+  .foot-bottom { flex-direction: column; align-items: flex-start; gap: .8rem; }
+  .foot-legal { flex-direction: column; gap: 0; align-items: flex-start; }
+}

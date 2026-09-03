@@ -151,10 +151,7 @@ export const categories: Category[] = [
     cover: 'c9469edb28bf6f463bba232523496082',
     metaDescription:
       'Commercial drone video production for venues, hotels, restaurants, and brands. FPV interior flythroughs and exterior aerials. Charlotte NC.',
-    videos: [
-      { stream: 'c9469edb28bf6f463bba232523496082', label: 'Production' },
-      { stream: 'fbf2eaaceb0ec89bc91197a5e6183605', label: 'Behind the Scenes' },
-    ],
+    videos: [{ stream: 'c9469edb28bf6f463bba232523496082', label: 'Production' }],
   },
 ];
 

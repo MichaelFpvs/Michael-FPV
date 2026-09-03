@@ -33,7 +33,20 @@ const business = {
     'Michael FPV Charlotte',
     'Michael FPV Drone',
   ],
-  slogan: 'Capture Your Journey',
+  slogan: 'One flight. No cuts.',
+  description:
+    'FPV drone cinematography in Charlotte, North Carolina. Real estate flythroughs, wedding aerials, and commercial production. FAA Part 107 certified and insured.',
+  areaServed: [
+    { '@type': 'City', name: 'Charlotte' },
+    { '@type': 'State', name: 'North Carolina' },
+    { '@type': 'Country', name: 'United States' },
+  ],
+  makesOffer: [
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Real estate drone videography' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding drone videography' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Commercial drone videography' } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'FPV production cinematography' } },
+  ],
   knowsAbout: [
     'FPV drone cinematography',
     'Real estate videography',
@@ -96,6 +109,8 @@ const person = {
   sameAs: [site.instagram],
 };
 
+// Tells Google the site's own name, so results show "Michael FPV"
+// rather than a guessed title.
 const website = {
   '@type': 'WebSite',
   '@id': `${origin}#website`,
@@ -182,6 +197,15 @@ const jsonLd = {
     <!-- Stops iOS turning stray numbers into phone links inside body copy. -->
     <meta name="format-detection" content="telephone=no" />
     <meta name="application-name" content="Michael FPV" />
+
+    <!-- Brand signals. Helps a search for the business name resolve
+         to this site rather than an Instagram profile. -->
+    <meta name="keywords" content="Michael FPV, MichaelFPV, drone videographer Charlotte, FPV drone Charlotte NC, real estate drone video, wedding drone videographer Charlotte" />
+    <meta property="business:contact_data:locality" content="Charlotte" />
+    <meta property="business:contact_data:region" content="NC" />
+    <meta property="business:contact_data:country_name" content="United States" />
+    <meta property="business:contact_data:phone_number" content="+1-980-397-9127" />
+    <link rel="me" href="https://www.instagram.com/michael__fpv/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

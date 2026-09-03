@@ -13,7 +13,7 @@ import sitemap from '@astrojs/sitemap';
 // and leave base as '/'.
 // ─────────────────────────────────────────────────────────────
 export default defineConfig({
-  site: 'https://michael-fpv.pages.dev',
+  site: 'https://michael-fpv.com',
   base: '/',
   trailingSlash: 'always',
   integrations: [sitemap()],
